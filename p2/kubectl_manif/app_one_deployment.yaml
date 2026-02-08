@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-one
+spec:
+  selector:
+    matchLabels:
+      app: app-one
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-one
+    spec:
+      containers:
+      - name: nginx
+        image: toto1337/node:1.0.1
+        ports:
+        - containerPort: 3000
+        env:
+          - name: APP_NAME
+            value: "app1"
+          - name: PORT
+            value: "3000"
