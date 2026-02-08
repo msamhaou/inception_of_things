@@ -16,9 +16,9 @@ spec:
       - name: nginx
         image: toto1337/node:1.0.1
         ports:
-        - containerPort: 3000
+        - containerPort: 80
         env:
           - name: APP_NAME
             value: "app2"
           - name: PORT
-            value: "3000"
+            value: "80"
