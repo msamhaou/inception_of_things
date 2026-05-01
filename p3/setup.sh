@@ -1,4 +1,4 @@
-sudo apt update && sudo apt install curl
+sudo apt-get update && sudo apt-get install -y curl
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo usermod -aG docker $USER 
@@ -7,7 +7,7 @@ chmod +x kubectl
 sudo mv kubectl /usr/bin
 alias k=kubectl
 curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-k3d cluster create mycluster --kubeconfig-update-default
+k3d cluster create mycluster --kubeconfig-update-default -p "443:443@loadbalancer"
 kubectl create ns argocd
 kubectl create ns dev
 kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
