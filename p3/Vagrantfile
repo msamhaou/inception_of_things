@@ -3,15 +3,9 @@ Vagrant.configure("2") do |config|
   config.vm.box = "debian/testing64"
 
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "4096"
+    vb.memory = "2096"
     vb.cpus = 2
   end
 
-  # Set the timezone via shell to keep it automated
-  config.vm.provision "shell", inline: <<-SHELL
-    timedatectl set-timezone Africa/Casablanca
-    echo "Timezone updated to $(cat /etc/timezone)"
-  SHELL
-
-  config.vm.provision "shell", path: "setup.sh"
+  config.vm.provision "shell", path: "setup.sh", privileged: false
 end
