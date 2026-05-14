@@ -27,4 +27,8 @@ kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubuse
 echo "export KUBECONFIG=/home/$_USER/.kube/config.yaml" >> /home/$_USER/.bashrc
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
-kubectl apply -f manifest
+kubectl wait --namespace ingress-nginx \
+  --for=condition=ready pod \
+  --selector=app.kubernetes.io/component=controller \
+  --timeout=120s
+kubectl apply -f /vagrant/manifest
