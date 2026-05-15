@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: node-app-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/msamhaou/IaC_node_app_for_IOT_msamhaou.git
+    targetRevision: HEAD
+    path: .
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
