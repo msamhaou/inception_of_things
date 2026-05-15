@@ -12,7 +12,7 @@ echo "alias k=kubectl" >> ~/.bashrc
 
 #k3d
 curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-sudo k3d cluster create mycluster -p "443:443@loadbalancer" -p "80:80@loadbalancer" --k3s-arg "--disable=traefik@server:*"
+sudo k3d cluster create mycluster -p "443:443@loadbalancer" -p "80:80@loadbalancer" -p "8080:30007@loadbalancer" --k3s-arg "--disable=traefik@server:*"
 
 #kubeconf
 mkdir /home/$_USER/.kube
@@ -31,4 +31,8 @@ kubectl wait --namespace ingress-nginx \
   --for=condition=ready pod \
   --selector=app.kubernetes.io/component=controller \
   --timeout=120s
-kubectl apply -f /vagrant/manifest
+kubectl apply -f /vagrant/manifest/Ingress.yaml
+kubectl apply -f /vagrant/manifest/Application.yaml
+kubectl apply -f /vagrant/IaC_node_app_for_IOT_msamhaou/Deployment.yaml
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d >/vagrant/passwd
+#kubectl apply -f /vagrant/IaC_node_app_for_IOT_msamhaou/node-app-svc.yaml
