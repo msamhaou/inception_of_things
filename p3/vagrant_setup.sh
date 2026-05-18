@@ -1,12 +1,9 @@
-export _USER=msamhaou
-WORK_DIR=/home/$_USER
+export _USER=vagrant
 sudo apt-get update && sudo apt-get install -y curl
 #docker
-if ! command -v docker > /dev/null 2>&1; then
-	curl -fsSL https://get.docker.com -o get-docker.sh
-	sudo sh get-docker.sh
-	sudo usermod -aG docker $_USER
-fi
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker $_USER
 #kubectl
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 chmod +x kubectl
@@ -34,8 +31,8 @@ kubectl wait --namespace ingress-nginx \
   --for=condition=ready pod \
   --selector=app.kubernetes.io/component=controller \
   --timeout=120s
-kubectl apply -f $WORK_DIR/manifest/Ingress.yaml
-kubectl apply -f $WORK_DIR/manifest/Application.yaml
-kubectl apply -f $WORK_DIR/IaC_node_app_for_IOT_msamhaou/Deployment.yaml
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d >$WORK_DIR/passwd
-
+kubectl apply -f /vagrant/manifest/Ingress.yaml
+kubectl apply -f /vagrant/manifest/Application.yaml
+kubectl apply -f /vagrant/IaC_node_app_for_IOT_msamhaou/Deployment.yaml
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d >/vagrant/passwd
+#kubectl apply -f /vagrant/IaC_node_app_for_IOT_msamhaou/node-app-svc.yaml
